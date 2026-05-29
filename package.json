@@ -1,0 +1,12 @@
+{
+  "name": "especialista-marketplace-ai",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "test": "node scripts/smoke-test.mjs",
+    "typecheck": "node --check server.mjs && node --check scripts/smoke-test.mjs"
+  }
+}

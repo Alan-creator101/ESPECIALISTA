@@ -1,0 +1,66 @@
+COMO ABRIR O ESPECIALISTA AI NO WINDOWS
+=======================================
+
+O erro abaixo acontece porque voce esta em C:\Users\anafl, mas o arquivo
+INICIAR_WINDOWS.bat fica dentro da pasta do projeto ESPECIALISTA:
+
+'INICIAR_WINDOWS.bat' nao e reconhecido como um comando interno ou externo
+
+Voce tem 2 formas de abrir:
+
+FORMA 1 - MAIS FACIL
+--------------------
+1. Abra o Explorador de Arquivos do Windows.
+2. Encontre a pasta do projeto chamada ESPECIALISTA.
+   Exemplos comuns:
+   - Downloads\ESPECIALISTA
+   - Desktop\ESPECIALISTA
+   - Documentos\ESPECIALISTA
+3. Entre dentro da pasta ESPECIALISTA.
+4. De duplo clique no arquivo:
+
+   INICIAR_WINDOWS.bat
+
+5. Mantenha a janela preta aberta.
+6. O navegador deve abrir em:
+
+   http://localhost:3000
+
+FORMA 2 - PELO TERMINAL
+-----------------------
+No terminal, voce precisa primeiro entrar na pasta do projeto.
+Troque o caminho abaixo pelo local onde voce salvou a pasta ESPECIALISTA.
+
+Se estiver em Downloads:
+
+   cd %USERPROFILE%\Downloads\ESPECIALISTA
+   INICIAR_WINDOWS.bat
+
+Se estiver na Area de Trabalho:
+
+   cd %USERPROFILE%\Desktop\ESPECIALISTA
+   INICIAR_WINDOWS.bat
+
+Se estiver em Documentos:
+
+   cd %USERPROFILE%\Documents\ESPECIALISTA
+   INICIAR_WINDOWS.bat
+
+Se nao souber onde esta a pasta, use o Explorador de Arquivos e procure por:
+
+   INICIAR_WINDOWS.bat
+
+LOGIN DEMO
+----------
+E-mail: admin@especialista.ai
+Senha:  Admin123!
+
+IMPORTANTE
+----------
+Nao digite apenas "install". O comando correto, quando estiver dentro da pasta
+do projeto, e:
+
+   npm install
+   npm run dev
+
+Mas a forma mais facil e dar duplo clique em INICIAR_WINDOWS.bat.

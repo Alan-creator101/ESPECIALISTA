@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ListingStatus {
+  DRAFT
+  EXPANDED
+  EXPORTED
+}
+
+enum CreditReason {
+  SIGNUP_BONUS
+  PLAN_RENEWAL
+  LISTING_GENERATION
+  ADMIN_ADJUSTMENT
+}
+
+model User {
+  id           String              @id @default(cuid())
+  name         String
+  email        String              @unique
+  passwordHash String
+  role         Role                @default(USER)
+  credits      Int                 @default(10)
+  planId       String?
+  plan         Plan?               @relation(fields: [planId], references: [id])
+  listings     Listing[]
+  documents    KnowledgeDocument[]
+  creditEvents CreditLedger[]
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+}
+
+model Plan {
+  id             String @id @default(cuid())
+  name           String @unique
+  priceCents     Int
+  monthlyCredits Int
+  features       String
+  active         Boolean @default(true)
+  users          User[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Listing {
+  id                 String        @id @default(cuid())
+  userId             String
+  user               User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productName        String
+  cost               Float
+  salePrice          Float
+  marketplace        String
+  shippingCost       Float
+  commissionPercent  Float
+  adsPercent         Float
+  taxPercent         Float
+  packagingCost      Float
+  differentiator     String
+  targetAudience     String?
+  competitorNotes    String?
+  logisticsNotes     String?
+  stageOneOutput     String
+  selectedVersion    Int?
+  expandedOutput     String?
+  status             ListingStatus @default(DRAFT)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+}
+
+model KnowledgeDocument {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fileName  String
+  mimeType  String
+  content   String
+  chunks    KnowledgeChunk[]
+  createdAt DateTime @default(now())
+}
+
+model KnowledgeChunk {
+  id         String            @id @default(cuid())
+  documentId String
+  document   KnowledgeDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  content    String
+  embedding  String
+  createdAt  DateTime          @default(now())
+}
+
+model CreditLedger {
+  id        String       @id @default(cuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  delta     Int
+  reason    CreditReason
+  metadata  String?
+  createdAt DateTime     @default(now())
+}
